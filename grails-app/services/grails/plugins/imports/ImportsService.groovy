@@ -1,16 +1,24 @@
 package grails.plugins.imports
 
+import javax.annotation.PostConstruct;
+
 import grails.plugins.imports.logging.*
 import grails.converters.JSON
 import groovy.text.SimpleTemplateEngine
 import org.codehaus.groovy.grails.web.binding.DataBindingUtils
 
 class ImportsService {
-    static rabbitQueue = "${grails.util.Holders.grailsApplication.metadata['app.name']}ImportRows"
+    static rabbitQueue = null
 
 	def grailsApplication
 	def importsLogger
 	static IMPORT_CONFIGURATIONS = [:]
+	
+	@PostConstruct
+	private void init(){
+		rabbitQueue = "${grails.util.Holders.grailsApplication.metadata['app.name']}ImportRows"
+		println rabbitQueue
+	}
 
 	def handleMessage(msg) {
 		def args = JSON.parse(msg)
