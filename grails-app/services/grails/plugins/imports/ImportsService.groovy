@@ -17,7 +17,6 @@ class ImportsService {
 	@PostConstruct
 	private void init(){
 		rabbitQueue = "${grails.util.Holders.grailsApplication.metadata['app.name']}ImportRows"
-		println rabbitQueue
 	}
 
 	def handleMessage(msg) {
